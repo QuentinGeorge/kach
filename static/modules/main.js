@@ -8,43 +8,10 @@
 
 import Vue from "vue";
 
-Vue.component( "cats-list", {
-    "props": [ "elements" ],
-    "template": `
-        <ul>
-            <li v-for="elt in elements">
-                <strong>{{ elt.name }}</strong>
-                <span>( {{ elt.age }} )</span>
-            </li>
-        </ul>
-    `,
-} );
+import "./cats-list";
 
-Vue.component( "secret", {
-    "props": [ "content" ],
-    "data": function() {
-        return {
-            "reveal": {
-                "show": "Reveal my secrets!",
-                "hide": "Hide my secrets!",
-                "value": "Reveal my secrets!",
-            },
-            "state": false,
-        };
-    },
-    "template": `
-        <div>
-            <p v-if="secret">I'm a Ninja!</p>
-            <button v-on:click="revealSecret">{{ reveal.value }}</button>
-        </div>
-    `,
-    "methods": {
-        "revealSecret": function() {
-            this.state = !this.state;
-            this.reveal.value = this.state ? this.reveal.hide : this.reveal.show;
-        },
-    },
-} );
+import "./components/secret";
+
 
 let oApp = new Vue( {
     "template": `
