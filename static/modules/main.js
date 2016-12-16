@@ -8,38 +8,58 @@
 
 import Vue from "vue";
 
-let oApp = new Vue( {
+Vue.component( "cats-list", {
+    "props": [ "elements" ],
     "template": `
-        <div class="box">
-            <p>{{ message }}</p>
-            <ul>
-                <li v-for="cat in cats">
-                    <strong>{{ cat.name }}</strong>
-                    <span>( {{ cat.age }} )</span>
-                </li>
-            </ul>
+        <ul>
+            <li v-for="elt in elements">
+                <strong>{{ elt.name }}</strong>
+                <span>( {{ elt.age }} )</span>
+            </li>
+        </ul>
+    `,
+} );
+
+Vue.component( "secret", {
+    "props": [ "content" ],
+    "data": function() {
+        return {
+            "reveal": {
+                "show": "Reveal my secrets!",
+                "hide": "Hide my secrets!",
+                "value": "Reveal my secrets!",
+            },
+            "state": false,
+        };
+    },
+    "template": `
+        <div>
             <p v-if="secret">I'm a Ninja!</p>
             <button v-on:click="revealSecret">{{ reveal.value }}</button>
         </div>
     `,
+    "methods": {
+        "revealSecret": function() {
+            this.state = !this.state;
+            this.reveal.value = this.state ? this.reveal.hide : this.reveal.show;
+        },
+    },
+} );
+
+let oApp = new Vue( {
+    "template": `
+        <div class="box">
+            <p>{{ message }}</p>
+            <cats-list v-bind:elements="cats"></cats-list>
+        </div>
+    `,
     "data": {
         "message": "Hey from Vue!",
-        "secret": false,
+        "secret": "Cat taste like chicken!",
         "cats": [
             { "name": "Skitty", "age": 6 },
             { "name": "Pixel", "age": 4 },
         ],
-        "reveal": {
-            "show": "Reveal my secrets!",
-            "hide": "Hide my secrets!",
-            "value": "Reveal my secrets!",
-        },
-    },
-    "methods": {
-        "revealSecret": function() {
-            this.secret = !this.secret;
-            this.reveal.value = this.secret ? this.reveal.hide : this.reveal.show;
-        },
     },
 } );
 
